@@ -1,4 +1,3 @@
-
 # Import Required Modules 
 from tkinter import *
 from pyyoutube import Api 
@@ -6,7 +5,10 @@ from pytube import YouTube
 from threading import Thread 
 from tkinter import messagebox
 import os
-  
+
+dirname = os.path.dirname(os.path.abspath(__file__))
+destination = dirname + '/download/'
+print(destination)
   
 def get_list_videos(): 
     global playlist_item_by_id 
@@ -43,8 +45,6 @@ def threading():
 def download_videos(): 
     download_start.config(state="disabled") 
     get_videos.config(state="disabled") 
-
-    destination = 'D:/git/ScrapeMusic/download/'
   
     # Iterate through all selected videos 
     for i in list_box.curselection(): 
@@ -61,7 +61,11 @@ def download_videos():
             base, ext = os.path.splitext(out_file) 
             new_file = base + '.mp3'
             os.rename(out_file, new_file) 
-        except:
+
+        except Exception as e:
+
+            print(e)
+            
             continue
 
   
