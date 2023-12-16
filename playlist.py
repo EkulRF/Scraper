@@ -16,7 +16,7 @@ def get_list_videos():
     list_box.delete(0, 'end') 
   
     # Create API Object 
-    api = Api(api_key='AIzaSyDBmJnUkkVtzezNonTf38V2JgmkzweZRTM') 
+    api = Api(api_key='Your API Key') 
   
     if "youtube" in playlistId.get(): 
         playlist_id = playlistId.get()[len( 
