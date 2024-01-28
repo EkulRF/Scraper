@@ -9,6 +9,19 @@ import os
 dirname = os.path.dirname(os.path.abspath(__file__))
 destination = dirname + '/download/'
 print(destination)
+
+## Listing Code
+
+from string import ascii_lowercase
+import itertools
+
+def iter_all_strings():
+    for size in itertools.count(1):
+        for s in itertools.product(ascii_lowercase, repeat=size):
+            yield "".join(s)
+
+###     
+
   
 def get_list_videos(): 
     global playlist_item_by_id 
@@ -47,7 +60,10 @@ def download_videos():
     get_videos.config(state="disabled") 
   
     # Iterate through all selected videos 
-    for i in list_box.curselection(): 
+    for i in list_box.curselection():
+
+        letter_pref = next(itertools.islice(iter_all_strings(), i, None, None))
+
         videoid = playlist_item_by_id['items'][i]['contentDetails']['videoId'] 
   
         link = f"https://www.youtube.com/watch?v={videoid}"
@@ -59,8 +75,12 @@ def download_videos():
             out_file = video.download(output_path=destination)
 
             base, ext = os.path.splitext(out_file) 
-            new_file = base + '.mp3'
-            os.rename(out_file, new_file) 
+            # Select elements before and after the last '/'
+            before_last_slash = base[:base.rfind('/')]
+            after_last_slash = base[base.rfind('/') + 1:]
+            new_name = before_last_slash + '/' + letter_pref + ' ' + after_last_slash + '.mp3'
+
+            os.rename(out_file, new_name) 
 
         except Exception as e:
 
